@@ -13,7 +13,7 @@
     group: root
     mode: 0644
   vars:
-    _ini: "{{ _php_cli_ini | combine(php_cli_ini, recursive=True) }}"
+    ini: "{{ _php_cli_ini | combine(php_cli_ini, recursive=True) }}"
 
 - include_tasks:
     file: fpm.yml

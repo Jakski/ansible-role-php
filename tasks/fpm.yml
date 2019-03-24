@@ -12,7 +12,7 @@
     group: root
     mode: 0644
   vars:
-    _ini: "{{ _php_fpm_ini | combine(php_fpm_ini, recursive=True) }}"
+    ini: "{{ _php_fpm_ini | combine(php_fpm_ini, recursive=True) }}"
   notify:
     - Reload PHP-FPM
 
@@ -53,8 +53,8 @@
     group: root
     mode: 0644
   vars:
-    _name: "{{ item.key }}"
-    _config: "{{ item.value }}"
+    name: "{{ item.key }}"
+    config: "{{ item.value }}"
   loop: "{{ php_fpm_pools | dict2items }}"
   notify:
     - Reload PHP-FPM

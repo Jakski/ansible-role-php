@@ -1,4 +1,4 @@
-{% for section, settings in _ini.items() if settings is not none %}
+{% for section, settings in ini.items() if settings is not none %}
 [{{ section }}]
 {% for key, value in settings.items() if value is not none %}
 {{ key }} = {{ value }}
