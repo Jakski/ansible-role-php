@@ -1,0 +1,4 @@
+[global]
+{% for key, value in (_php_fpm_config | combine(php_fpm_config)).items() if value is not none %}
+{{ key }} = {{ value }}
+{% endfor %}

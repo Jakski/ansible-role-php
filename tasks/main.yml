@@ -1,0 +1,20 @@
+---
+- name: Install PHP
+  apt:
+    name: "{{ php_package }}"
+    default_release: "{{ php_package_release | default(omit) }}"
+    state: present
+
+- name: Apply CLI INI configuration
+  template:
+    src: ini.j2
+    dest: "{{ php_config_dir }}/cli/php.ini"
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    _ini: "{{ _php_cli_ini | combine(php_cli_ini, recursive=True) }}"
+
+- include_tasks:
+    file: fpm.yml
+  when: php_manage_fpm

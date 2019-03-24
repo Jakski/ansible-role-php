@@ -1,0 +1,16 @@
+---
+- name: Restart PHP-FPM
+  service:
+    name: "{{ php_fpm_service }}"
+    state: restarted
+  register: _php_fpm_restarted
+  when: php_fpm_restart
+
+- name: Reload PHP-FPM
+  service:
+    name: "{{ php_fpm_service }}"
+    state: reloaded
+  when: >
+    php_fpm_reload and
+    (_php_fpm_restarted is not defined or
+    _php_fpm_restarted is not changed)

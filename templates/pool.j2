@@ -1,0 +1,4 @@
+[{{ _name }}]
+{% for key, value in _config.items() if value is not none %}
+{{ key }} = {{ value }}
+{% endfor %}

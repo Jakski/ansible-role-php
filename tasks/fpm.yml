@@ -1,0 +1,60 @@
+---
+- name: "{{ php_fpm_enable | ternary('Enable', 'Disable') }} FPM service"
+  service:
+    name: "{{ php_fpm_service }}"
+    enabled: "{{ php_fpm_enable }}"
+
+- name: Apply FPM INI configuration
+  template:
+    src: ini.j2
+    dest: "{{ php_config_dir }}/fpm/php.ini"
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    _ini: "{{ _php_fpm_ini | combine(php_fpm_ini, recursive=True) }}"
+  notify:
+    - Reload PHP-FPM
+
+- name: Apply FPM configuration
+  template:
+    src: fpm.j2
+    dest: "{{ php_config_dir }}/fpm/php-fpm.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart PHP-FPM
+
+- name: Find existing pools
+  find:
+    path: "{{ php_fpm_pools_dir }}"
+    recurse: false
+    patterns: "*.conf"
+  register: _php_fpm_pool_files
+  when: php_fpm_manage_pools
+
+- name: Remove unmanaged pools
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  when: >
+    php_fpm_manage_pools and
+    (item.path | basename | regex_replace('(.*)\.conf$', '\\1')) not in php_fpm_pools.keys()
+  loop: "{{ _php_fpm_pool_files.files }}"
+  notify:
+    - Reload PHP-FPM
+
+- name: Create FPM pools
+  template:
+    src: pool.j2
+    dest: "{{ php_fpm_pools_dir }}/{{ item.key }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    _name: "{{ item.key }}"
+    _config: "{{ item.value }}"
+  loop: "{{ php_fpm_pools | dict2items }}"
+  notify:
+    - Reload PHP-FPM

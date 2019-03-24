@@ -1,0 +1,60 @@
+###
+# Manage FPM
+php_manage_fpm: true
+
+###
+# PHP-FPM service name
+php_fpm_service: php7.0-fpm
+
+###
+# Enable PHP-FPM service
+php_fpm_enable: true
+
+###
+# Package with PHP
+#
+# Use only PHP CLI package here, if you don't want FPM.
+php_package: php7.0-fpm
+
+###
+#
+php_config_dir: /etc/php/7.0
+
+###
+# Sections/variables dictionary with overrides for FPM configuration
+#
+# See _php_fpm_config for default values
+php_fpm_config: {}
+
+###
+# Pool/sections/variables nested dictionary with FPM pools configurations
+php_fpm_pools: {}
+
+###
+# Sections/variables dictionary with INI configuration overrides for CLI
+#
+# See _php_cli_ini for default values
+php_cli_ini: {}
+
+###
+# Sections/variables dictionary with INI configuration overrides for FPM
+php_fpm_ini: {}
+
+###
+# Reload FPM when necessary
+php_fpm_reload: true
+
+###
+# Restart FPM when necessary
+php_fpm_restart: true
+
+###
+# Remove unmanaged FPM pool definitions
+php_fpm_manage_pools: true
+
+###
+# Path to directory with FPM pools definitions
+#
+# This should be changed together with `include` directive in FPM configuration.
+# If you change this, then you need to ensure that this directory exists.
+php_fpm_pools_dir: "{{ php_config_dir }}/fpm/pool.d"
