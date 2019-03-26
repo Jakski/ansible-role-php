@@ -4,6 +4,8 @@
     name: "{{ php_package }}"
     default_release: "{{ php_package_release | default(omit) }}"
     state: present
+  notify:
+    - Restart PHP-FPM
 
 - name: Apply CLI INI configuration
   template:
