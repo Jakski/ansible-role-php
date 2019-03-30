@@ -42,6 +42,8 @@
     php_fpm_manage_pools and
     (item.path | basename | regex_replace('(.*)\.conf$', '\\1')) not in php_fpm_pools.keys()
   loop: "{{ _php_fpm_pool_files.files }}"
+  loop_control:
+    label: "{{ item.path }}"
   notify:
     - Reload PHP-FPM
 
@@ -56,5 +58,7 @@
     name: "{{ item.key }}"
     config: "{{ item.value }}"
   loop: "{{ php_fpm_pools | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
   notify:
     - Reload PHP-FPM
