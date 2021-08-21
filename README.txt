@@ -35,8 +35,6 @@ php_fpm_config
 
    Sections/variables dictionary with overrides for FPM configuration
 
-   See _php_fpm_config for default values
-
 php_fpm_pools
 
    Pool/sections/variables nested dictionary with FPM pools
@@ -46,8 +44,6 @@ php_cli_ini
 
    Sections/variables dictionary with INI configuration overrides for
    CLI
-
-   See _php_cli_ini for default values
 
 php_fpm_ini
 

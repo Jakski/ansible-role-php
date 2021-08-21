@@ -12,7 +12,7 @@
     group: root
     mode: 0644
   vars:
-    ini: "{{ _php_fpm_ini | combine(php_fpm_ini, recursive=True) }}"
+    ini: "{{ php_fpm_ini }}"
   notify:
     - Reload PHP-FPM
 
